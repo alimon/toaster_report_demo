@@ -146,6 +146,8 @@ def get_args():
     parser.add_argument('--test-browser', dest='test_browser',
         choices=['firefox', 'chrome', 'ie'],
         help='Web browser for use to run tests.')
+    parser.add_argument('--skip-setup', required=False, action="store_true",
+        dest="skip_setup", default=False, help='Skip toaster setup test case.')
     parser.add_argument('--verbose', required=False, action="store_true",
         dest="verbose", default=False, help='Enable verbose mode.')
     parser.add_argument('--debug', required=False, action="store_true",
@@ -217,8 +219,11 @@ def main(args):
             logger.error("Can't load test %s" % str(test))
             raise
 
-    result = runner.run(setup_suite)
-    if result.wasSuccessful():
+    success = True
+    if not args.skip_setup:
+        result = runner.run(setup_suite)
+        success = result.wasSuccessful()
+    if success:
         result = runner.run(suite)
 
     if result.wasSuccessful():
