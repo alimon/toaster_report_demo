@@ -61,4 +61,4 @@ start vncserver and set DISPLAY before run to don't interfer with your tasks,
 example:
 
 $ vncserver :10
-$ export DISPLAY=:10
+$ export DISPLAY=:10 -geometry 1920x1080
